@@ -1,0 +1,39 @@
+<!docstyle html>
+<html>
+    <style>
+        form {
+            margin: auto;
+            width: 40%;
+        }
+        .result {
+            margin: auto;
+            width: 40%;
+            padding: 20px;
+            border: 5px solid rgb(199, 51, 51);
+        }
+        </style>      
+<head>
+    <title>BERT Q&A system</title>
+</head>
+<body>
+<h1 align="center">Welcome to the BERT Question-Answering system! &#x1f917;</h1> 
+<p style="text-align:center">How does it work? Enter a passage/context, and a question or which the answer is contained in the passage.
+A pre-trained BERT model (HuggingFace!) extracts the answer from the context.</p>
+<form method="POST" align="center">
+    <input name="question">
+    <p>Enter your question</p>
+    <input name="context">
+    <p>Enter context</p>
+    <input type="submit">
+</form>
+<br>
+<div class="result" align="center">
+    {% if result %}
+    <p> <span  style="color:rebeccapurple;">Question:</span>  {{question }}</p>
+    <p> <span  style="color: rebeccapurple;">Context:</span>  {{context }}</p>
+        <br> <h3>Answer:</h3>
+           <p style="font-size:30px; color:red">{{result }}</p>
+    {% endif %}
+</div>
+</body>
+</html>
