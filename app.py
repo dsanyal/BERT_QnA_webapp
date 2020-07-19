@@ -1,14 +1,13 @@
 import tensorflow as tf
-from transformers import BertTokenizer, TFBertForQuestionAnswering
+from transformers import DistilBertTokenizer, TFDistilBertForQuestionAnswering
 from flask import Flask,render_template,url_for,request
-import joblib
 
 app = Flask(__name__, template_folder='templates')
 
 #memory = joblib.Memory("models/", verbose=0)
 
-def prediction(question, context):
-  input_dict = tokenizer(question, context, return_tensors='tf')
+def inference(question, context):
+  input_dict = tokenizer.encode_plus(question, context, return_tensors='tf')
   # print(input_dict)
   start_scores, end_scores = model(input_dict)
   all_tokens = tokenizer.convert_ids_to_tokens(input_dict["input_ids"].numpy()[0])
@@ -21,12 +20,12 @@ def predict():
       return render_template('index.html')
     if request.method == 'POST':
       question, context = request.form['question'], request.form['context']
-      answer = prediction(question, context)
+      answer = inference(question, context)
       return render_template('index.html', result = answer, question=question, context=context)
 
 
 
 if __name__ == '__main__':
-  tokenizer = BertTokenizer.from_pretrained("./models/tokenizer")
-  model = TFBertForQuestionAnswering.from_pretrained("./models")
+  tokenizer = DistilBertTokenizer.from_pretrained("./models/tokenizer")
+  model = TFDistilBertForQuestionAnswering.from_pretrained("./models")
   app.run(debug=True)

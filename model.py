@@ -1,11 +1,12 @@
 import tensorflow as tf
-from transformers import BertTokenizer, TFBertForQuestionAnswering
+from transformers import DistilBertTokenizer, TFDistilBertForQuestionAnswering
 
-print("#### Downloading BERT tokenizer ####")
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+print("#### Downloading DistilBERT tokenizer ####")
+tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
 tokenizer.save_pretrained("models/tokenizer")
-print("#### Downloading TFBertForQuestionAnswering model ####")
-model = TFBertForQuestionAnswering.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
+print("#### Downloading TFDistilBertForQuestionAnswering model ####")
+model = TFDistilBertForQuestionAnswering.from_pretrained('distilbert-base-uncased-distilled-squad')
 model.save_pretrained("models/")
 
 print('#### Done ####')
+
