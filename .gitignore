@@ -148,3 +148,4 @@ models/
 *.h5
 *.pkl
 *.bin.DS_Store
+.DS_Store
