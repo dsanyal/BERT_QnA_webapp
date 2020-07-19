@@ -1,11 +1,11 @@
 import tensorflow as tf
-from transformers import DistilBertTokenizer, TFDistilBertForQuestionAnswering
+from transformers import DistilBertTokenizer, DistilBertForQuestionAnswering
 
 print("#### Downloading DistilBERT tokenizer ####")
 tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
 tokenizer.save_pretrained("models/tokenizer")
-print("#### Downloading TFDistilBertForQuestionAnswering model ####")
-model = TFDistilBertForQuestionAnswering.from_pretrained('distilbert-base-uncased-distilled-squad')
+print("#### Downloading DistilBertForQuestionAnswering model ####")
+model = DistilBertForQuestionAnswering.from_pretrained('distilbert-base-uncased-distilled-squad')
 model.save_pretrained("models/")
 
 print('#### Done ####')
