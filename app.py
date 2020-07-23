@@ -2,13 +2,16 @@ import tensorflow as tf
 from transformers import DistilBertTokenizer, TFDistilBertForQuestionAnswering
 from flask import Flask,render_template,url_for,request
 
+
 app = Flask(__name__, template_folder='templates')
 
-#memory = joblib.Memory("models/", verbose=0)
 
 def inference(question, context):
-  input_dict = tokenizer.encode_plus(question, context, return_tensors='tf')
+  tokenizer = DistilBertTokenizer.from_pretrained("./models/tokenizer/")
+  model = TFDistilBertForQuestionAnswering.from_pretrained("./models/") 
+  input_dict = tokenizer.encode_plus(question, context, padding = 'max_length', max_length=128, return_tensors='tf')
   start_scores, end_scores  = model(input_dict)
+  del model
   all_tokens = tokenizer.convert_ids_to_tokens(input_dict["input_ids"].numpy()[0])
   answer =  ' '.join(all_tokens[tf.math.argmax(start_scores, 1)[0] : tf.math.argmax(end_scores, 1)[0]+1])
   return answer
@@ -23,8 +26,5 @@ def predict():
       return render_template('index.html', result = answer, question=question, context=context)
 
 
-
-if __name__ == '__main__':
-  tokenizer = DistilBertTokenizer.from_pretrained("./models/tokenizer")
-  model = TFDistilBertForQuestionAnswering.from_pretrained("./models")
+if __name__ == '__main__': 
   app.run(debug=True)
